@@ -74,6 +74,7 @@ Neo4j uses [Cypher Query Language](https://en.wikipedia.org/wiki/Cypher_Query_La
 [Neo4j Overview](https://www.tutorialspoint.com/neo4j/neo4j_overview.htm)
 
 #### Commit Summary
+Commits 2 & 3 were deleted from commit history.
 1. Setup - Created empty database "Timetable"
 2. Added README & Neo4j Info
 3. Added additional Neo4j Info
@@ -83,6 +84,7 @@ Neo4j uses [Cypher Query Language](https://en.wikipedia.org/wiki/Cypher_Query_La
 7. Updated README
 8. Added Rooms, Days, TimeSlots Data
 9. Added Info about commit 8
+10. Finishing Touches
 
 #### Timetable Database Data
 The following is a list of data that is stored in this timetable database for GMIT:
@@ -175,7 +177,7 @@ Screenshot match (ee:Facility)-[]-(Activity)-[]-(Room) return ee, Activity, Room
 Science Labs is excluded because it is not connected to any rooms at the moment.
 ![Commit6_1.png](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Images/Commit6_1.png)
 
-The next part involves creating Mon-Fri nodes for every room(80 nodes) and time slot nodes for every hour session 9am-6pm for every day of every room (720 nodes). The design plan/ideal-scenario for this project was to have only 5 Mon-Fri nodes and 9 time slot nodes which have relationships between them in such a way that only a minimum amount of nodes is needed to display that a certain group is occupying a certain room at a certain time slot for a certain module however that plan backfired and I decided to take an alternative approach. The flaw with this alternative approach is the fact that a high number of nodes must be created which means the database is going to need more storage space but as a result you end up with a database that clearly displays which room, day and timeslot is/isn't occupied by a group.
+The next part involves creating Mon-Fri nodes for every room(80 nodes) and time slot nodes for every hour session 9am-6pm for every day of every room (720 nodes). The design plan/ideal-scenario for this project was to have only 5 Mon-Fri nodes and 9 time slot nodes which have relationships between them in such a way that only a minimum amount of nodes is needed to display that a certain group is occupying a certain room at a certain time slot for a certain module however that plan backfired and I decided to take an alternative approach. The flaw with this alternative approach is the fact that a high number of nodes must be created which means the database is going to need more storage space but as a result you end up with a database that clearly displays which room, day and time slot is/isn't occupied by a group.
 
 7. Create day nodes Mon-Fri with property room ID.
 > Ref: [seperate folder](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Cypher%20Queries/Create%20Days.txt)
@@ -196,3 +198,27 @@ At this point there is a lot of nodes and only 300 is displayed unless :config i
 
 11. Lastly create relationships between time slot nodes and group nodes representing that a time slot is occupied by a certain group and create relationships between module nodes and time slot nodes representing that a particular module is taught at a particular time slot. All the data for this part is completed acording to the timetable [here](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Images/Timetable.png)
 > Ref: [seperate folder](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Cypher%20Queries/Relationships%20-%20Groups%2C%20Modules%2C%20TimeSlots.txt)
+
+#### Finishing Touches
+This concludes the database prototype, the flaws and advantages of the design should be evident and to summerize:
+There are many different nodes in the database, the labels on these nodes and one directional relationships between them clearly specify how they are connected and relevant node properties are used to ensure that these relationships are matched accordingly e.g. a particular time slot node with property room ID 944 is matched to the room with the number 994. Node properties also contain data that is beneficial to the scheduler such as a group node with the property max_students = 30 can help pick out the room with the appropriate capacity.
+
+#### Onwards From Prototype
+In order to transform this prototype to a fully functioning database that can be __further tested__ these steps should be completed:
+* Constraints should be set both uniqueness constraints and property existance constraints to prevent entering the wrong kind of data.
+e.g. a uniqueness constraint could be set on student's ID like so
+> create constraint on (a:Student) assert a.ID is unique
+e.g. a property constraint could be set on the number property of room (need Neo4j Enterprise Edition)
+> create constraint on (a:Room) assert exists (a.number)
+To view constraints use the command :schema
+* May or may not want to create an index on a property which allows you to preform queries using index, the cost of using an index involves the creation of a redundant copy of the data in the database. Indexes are commonly created on nodes that contain a lot of data.
+e.g. create an index on student's ID
+> create index on :Student(ID)
+* A lot of additional data needs to be created this includes all of GMIT'S departments, courses, modules, rooms etc.
+* Day and time slot nodes must also be created and have the appropriate relationships. This is a tedious step that may be automated or simplified by loading data from a CSV file, short guide on loading data from [CSV files](https://neo4j.com/docs/developer-manual/current/get-started/cypher/importing-csv-files-with-cypher/)
+* Additional properties should be added to nodes such as capacity/equipment a room has.
+e.g. create a property capacity of 100 to the room node with the number 994
+> match (ee:Room {number: "0994"}) set ee.capacity = "100" return ee
+* Relationships may also store properties.
+e.g. create a property "since" on the relationship "Taught_to" and set it December for the module Software Testing for group C
+> match (ee:Module {name: "Software Testing"})-[r:Taught_to]-(Group {name: "C"}) set r.since = "December"
