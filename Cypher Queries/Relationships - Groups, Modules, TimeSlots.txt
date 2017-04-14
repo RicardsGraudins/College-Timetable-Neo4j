@@ -1,0 +1,70 @@
+Monday:
+
+match (a:Group),(b:TimeSlot {name: "9:00-10:00", roomID: "0145", day:"Monday"}),(c:Module) where a.name = "A" and c.name = "Graph Theory" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "10:00-11:00", roomID: "0994", day:"Monday"}),(c:Module) where c.name = "Database Management Systems" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "12:00-13:00", roomID: "0223", day:"Monday"}),(c:Module) where c.name = "Mobile Applications Development 2" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "13:00-14:00", roomID: "0223", day:"Monday"}),(c:Module) where c.name = "Mobile Applications Development 2" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "16:00-17:00", roomID: "0481", day:"Monday"}),(c:Module) where a.name = "A" and c.name = "Software Testing" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "17:00-18:00", roomID: "0481", day:"Monday"}),(c:Module) where a.name = "A" and c.name = "Software Testing" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "16:00-17:00", roomID: "0436", day:"Monday"}),(c:Module) where a.name = "C" and c.name = "Server Side Rad" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "17:00-18:00", roomID: "0436", day:"Monday"}),(c:Module) where a.name = "C" and c.name = "Server Side Rad" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+
+Tuesday:
+
+match (a:Group),(b:TimeSlot {name: "9:00-10:00", roomID: "0436", day:"Tuesday"}),(c:Module) where a.name = "C" and c.name = "Software Testing" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "10:00-11:00", roomID: "0436", day:"Tuesday"}),(c:Module) where a.name = "C" and c.name = "Software Testing" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "9:00-10:00", roomID: "0481", day:"Tuesday"}),(c:Module) where a.name = "A" and c.name = "Database Management Systems" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "10:00-11:00", roomID: "0481", day:"Tuesday"}),(c:Module) where a.name = "A" and c.name = "Database Management Systems" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "11:00-12:00", roomID: "0470", day:"Tuesday"}),(c:Module) where a.name = "A" and c.name = "Mobile Applications Development 2" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "12:00-13:00", roomID: "0470", day:"Tuesday"}),(c:Module) where a.name = "A" and c.name = "Mobile Applications Development 2" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "12:00-13:00", roomID: "0379", day:"Tuesday"}),(c:Module) where a.name = "B" and c.name = "Graph Theory" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "14:00-15:00", roomID: "0436", day:"Tuesday"}),(c:Module) where a.name = "B" and c.name = "Software Testing" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "15:00-16:00", roomID: "0436", day:"Tuesday"}),(c:Module) where a.name = "B" and c.name = "Software Testing" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "16:00-17:00", roomID: "0436", day:"Tuesday"}),(c:Module) where a.name = "B" and c.name = "Server Side Rad" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "17:00-18:00", roomID: "0436", day:"Tuesday"}),(c:Module) where a.name = "B" and c.name = "Server Side Rad" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+
+Wednesday:
+
+match (a:Group),(b:TimeSlot {name: "9:00-10:00", roomID: "0162", day:"Wednesday"}),(c:Module) where a.name = "C" and c.name = "Graph Theory" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "10:00-11:00", roomID: "0938", day:"Wednesday"}),(c:Module) where c.name = "Graph Theory" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "11:00-12:00", roomID: "0208", day:"Wednesday"}),(c:Module) where c.name = "Professional Practice In IT" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "13:00-14:00", roomID: "0997", day:"Wednesday"}),(c:Module) where c.name = "Server Side Rad" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "14:00-15:00", roomID: "0994", day:"Wednesday"}),(c:Module) where c.name = "Software Testing" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "15:00-16:00", roomID: "0939", day:"Wednesday"}),(c:Module) where c.name = "Software Testing" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "16:00-17:00", roomID: "0995", day:"Wednesday"}),(c:Module) where c.name = "Database Management Systems" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+
+Thursday:
+
+match (a:Group),(b:TimeSlot {name: "9:00-10:00", roomID: "PF18", day:"Thursday"}),(c:Module) where a.name = "B" and c.name = "Mobile Applications Development 2" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "10:00-11:00", roomID: "PF18", day:"Thursday"}),(c:Module) where a.name = "B" and c.name = "Mobile Applications Development 2" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "11:00-12:00", roomID: "PF18", day:"Thursday"}),(c:Module) where a.name = "C" and c.name = "Mobile Applications Development 2" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "12:00-13:00", roomID: "PF18", day:"Thursday"}),(c:Module) where a.name = "C" and c.name = "Mobile Applications Development 2" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "14:00-15:00", roomID: "0436", day:"Thursday"}),(c:Module) where a.name = "A" and c.name = "Server Side Rad" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "15:00-16:00", roomID: "0436", day:"Thursday"}),(c:Module) where a.name = "A" and c.name = "Server Side Rad" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "15:00-16:00", roomID: "0483", day:"Thursday"}),(c:Module) where a.name = "C" and c.name = "Database Management Systems" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "16:00-17:00", roomID: "0483", day:"Thursday"}),(c:Module) where a.name = "C" and c.name = "Database Management Systems" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+
+Friday:
+
+match (a:Group),(b:TimeSlot {name: "9:00-10:00", roomID: "0482", day:"Friday"}),(c:Module) where a.name = "B" and c.name = "Database Management Systems" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+match (a:Group),(b:TimeSlot {name: "10:00-11:00", roomID: "0482", day:"Friday"}),(c:Module) where a.name = "B" and c.name = "Database Management Systems" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
+--
+match (a:Group),(b:TimeSlot {name: "11:00-12:00", roomID: "0208", day:"Friday"}),(c:Module) where c.name = "Graph Theory" create (b)-[:Occupied_by]->(a), (c)-[:Taught_at]->(b)
