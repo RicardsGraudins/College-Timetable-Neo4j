@@ -81,6 +81,8 @@ Neo4j uses [Cypher Query Language](https://en.wikipedia.org/wiki/Cypher_Query_La
 5. Added images folder
 6. Added Info about commit 4
 7. Updated README
+8. Added Rooms, Days, TimeSlots Data
+9. Added Info about commit 8
 
 #### Timetable Database Data
 The following is a list of data that is stored in this timetable database for GMIT:
@@ -105,7 +107,7 @@ Here are all the steps and queries for this commit:
 > create (ee:Program { name:"Computing in Software Development L7 YR 3 Sem 6" })
 3. Create a relationship between the department and the program.
 > match (a:Department),(b:Program) where a.name = "Computer Science & Applied Physics" and b.name = "Computing in Software Development L7 YR 3 Sem 6" create (a)-[r:Manages]->(b) 
-4. Create a new module node for graph theory taught by Ian McLoughlin 
+4. Create a new module node for graph theory taught by Ian McLoughlin .
 > create (ee:Module { name: "Graph Theory", Lecturer: "Ian McLoughlin" })
 5. Create a relationship between the program and the module.
 > match (a:Program),(b:Module) where a.name = "Computing in Software Development L7 YR 3 Sem 6" and b.name = "Graph Theory" create (a)-[r:Contains]->(b)
@@ -132,20 +134,65 @@ Now the database should look like this:
 ![Commit4_1](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Images/Commit4_2.png)
 
 #### Useful Queries:
-1. Displays all group nodes(and graph theory node) that are taught the graph theory module
+1. Displays all group nodes(and graph theory node) that are taught the graph theory module.
 > match (ee:Module)-[:Taught_to]-(Group) where ee.name = "Graph Theory" return ee, Group
 ![Commit4_1](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Images/Commit4_3.png)
 
-2. Displays students node and group nodes that have the relationship "Divided_into"
-- Can easily see how many groups the students who got accepted into a specific course are divided into
+2. Displays students node and group nodes that have the relationship "Divided_into".
+- Can easily see how many groups the students who got accepted into a specific course are divided into.
 > match (ee:Students)-[Divided_into]-(Group) return ee, Group
 ![Commit4_1](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Images/Commit4_4.png)
 - The proper way to do this query is:
 > match (ee:Students)-[Divided_into]-(Group) where ee.accepted_into = "Computing in Software Development L7 YR 3 Sem 6" return ee, Group
 - Both queries work however, the 2nd one should be used as the finished timetable will consist of several nodes called Students and they are seperated by the property accepted_into. In other words if the first query is used in a timetable that consists of several nodes called Students all of the Students nodes will be displayed and not just the ones for Computing in Software Development L7 YR 3 Sem 6.
 
-3. Displays all module and group nodes and their relationships
+3. Displays all module and group nodes and their relationships.
 > match (ee:Module)-[]-(Group) return ee, Group
 
-4. Displays group node and student nodes that have the relationship "Composed_of"
+4. Displays group node and student nodes that have the relationship "Composed_of".
 > match (ee:Group)-[:Composed_of]-(Student) return ee, Student
+
+#### 8. Rooms, Days, TimeSlot Data
+The goal of this commit was to add rooms, display the days and time slots the rooms are available, and lastly to create a relationship between the group occupying the room during a timeslot as well as the module being taught.
+
+Here are all the steps and queries for this commit:
+Several queries are inside a [seperate folder](https://github.com/RicardsGraudins/College-Timetable-Neo4j/tree/master/Cypher%20Queries) as they are too long for the README.
+
+1. Create a new facility node for rooms.
+> create (ee:Facility { name: "Rooms"})
+2. Create 3 new activity nodes for lectures, computer labs and science labs.
+> create (ee:Activity { name: "Lectures"}), (a:Activity { name: "Computer Labs"}), (b:Activity { name: "Science Labs"})
+3. Create a relationship between the facility and 3 activities to represent what the facility is used for.
+> match (ee:Facility),(a:Activity),(b:Activity), (c:Activity) where ee.name = "Rooms" and a.name = "Lectures" and b.name = "Computer Labs" and c.name = "Science Labs" create (ee)-[:For]->(a), (ee)-[:For]->(b), (ee)-[:For]->(c)
+4. Create new room nodes with the property number.
+> create (a:Room {number: "0145"}), (b:Room {number: "0994"}), (c:Room {number: "0223"}), (d:Room {number: "0481", ID: "CR4"}), (e:Room {number: "0436", ID: "CR5"}), (f:Room {number: "0470"}), (g:Room {number: "0379"}), (h:Room {number: "0162"}), (i:Room {number: "0938"}), (j:Room {number: "0208"}), (k:Room {number: "0997"}), (l:Room {number: "0939"}), (m:Room {number: "0995"}), (n:Room {number: "0483", ID: "CR2"}), (o:Room {number: "PF18"}),(p:Room {number: "0482", ID: "CR3"})
+5. Create a relationship between activity "Computer Labs" and the 4 rooms that have computers to represent that the activity takes place in these 4 rooms.
+> match (ee:Activity),(a:Room),(b:Room),(c:Room),(d:Room) where ee.name = "Computer Labs" and a.ID = "CR2" and b.ID = "CR3" and c.ID = "CR4" and d.ID = "CR5" create (ee)-[:In]->(a), (ee)-[:In]->(b), (ee)-[:In]->(c), (ee)-[:In]->(d)
+6. Create a relationship between activity "Lectures" and the other rooms that are used for lectures.
+> match (ee:Activity),(a:Room),(b:Room),(c:Room),(d:Room), (x:Room), (f:Room), (g:Room), (h:Room), (i:Room), (j:Room), (k:Room), (l:Room) where ee.name = "Lectures" and a.number = "0145" and b.number = "0994" and c.number = "0223" and d.number = "0470" and x.number = "0379" and f.number = "0162" and g.number = "0997" and h.number = "0938" and i.number = "0208" and j.number = "0995" and k.number = "0939" and l.number = "PF18" create (ee)-[:In]->(a), (ee)-[:In]->(b), (ee)-[:In]->(c), (ee)-[:In]->(d), (ee)-[:In]->(x), (ee)-[:In]->(f), (ee)-[:In]->(g), (ee)-[:In]->(h), (ee)-[:In]->(i), (ee)-[:In]->(j), (ee)-[:In]->(k), (ee)-[:In]->(l)
+
+Screenshot match (ee:Facility)-[]-(Activity)-[]-(Room) return ee, Activity, Room
+Science Labs is excluded because it is not connected to any rooms at the moment.
+![Commit6_1.png](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Images/Commit6_1.png)
+
+The next part involves creating Mon-Fri nodes for every room(80 nodes) and time slot nodes for every hour session 9am-6pm for every day of every room (720 nodes). The design plan/ideal-scenario for this project was to have only 5 Mon-Fri nodes and 9 time slot nodes which have relationships between them in such a way that only a minimum amount of nodes is needed to display that a certain group is occupying a certain room at a certain time slot for a certain module however that plan backfired and I decided to take an alternative approach. The flaw with this alternative approach is the fact that a high number of nodes must be created which means the database is going to need more storage space but as a result you end up with a database that clearly displays which room, day and timeslot is/isn't occupied by a group.
+
+7. Create day nodes Mon-Fri with property room ID.
+> Ref: [seperate folder](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Cypher%20Queries/Create%20Days.txt)
+8. Create relationships between room nodes and day nodes, this is where the room ID property of day nodes is used.
+> Ref: [seperate folder](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Cypher%20Queries/Relationships%20-%20Rooms%20and%20Days.txt)
+
+Screenshot match (ee:Room)-[]-(Day)-[]-(TimeSlot) return ee, Day, TimeSlot
+![Commit6_2.png](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Images/Commit6_2.png)
+
+9. Create time slot nodes for every day of every room with property room ID.
+> Ref: [seperate folder](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Cypher%20Queries/Create%20TimeSlots.txt)
+10. Create relationships between day nodes and time slots, this is where the room ID property of time slot nodes is used.
+> Ref: [seperate folder](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Cypher%20Queries/Relationships%20-%20Days%20and%20TimeSlots.txt)
+
+Screenshot match (ee:Room)-[]-(Day)-[]-(TimeSlot) return ee, Day, TimeSlot
+At this point there is a lot of nodes and only 300 is displayed unless :config initialNodeDisplay: 300 is modified.
+![Commit6_3.png](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Images/Commit6_3.png)
+
+11. Lastly create relationships between time slot nodes and group nodes representing that a time slot is occupied by a certain group and create relationships between module nodes and time slot nodes representing that a particular module is taught at a particular time slot. All the data for this part is completed acording to the timetable [here](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Images/Timetable.png)
+> Ref: [seperate folder](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Cypher%20Queries/Relationships%20-%20Groups%2C%20Modules%2C%20TimeSlots.txt)
