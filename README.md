@@ -79,6 +79,8 @@ Neo4j uses [Cypher Query Language](https://en.wikipedia.org/wiki/Cypher_Query_La
 3. Added additional Neo4j Info
 4. Added Department & Courses data
 5. Added images folder
+6. Added Info about commit 4
+7. Updated README
 
 #### Timetable Database Data
 The following is a list of data that is stored in this timetable database for GMIT:
@@ -121,8 +123,10 @@ At this point the database should look like this:
 > match (ee:Group) where ee.name = "A" create (ab:Student { name: "Ricards Graudins", age: "22", ID: "G00000000" }), (cd:Student { name: "John Johnson", age: "25", ID: "G00000001" }), (ee)-[:Composed_of]->(ab), (ee)-[:Composed_of]->(cd)
 10. Last step is to create a relationship between the modules and the groups, in this case every module is taught to groups A,B and C.
 > match (ee:Group),(m0:Module),(m1:Module),(m2:Module),(m3:Module),(m4:Module),(m5:Module) where ee.name = "A" and m0.name = "Graph Theory" and m1.name = "Software Testing" and m2.name = "Mobile Applications Development 2" and m3.name = "Database Management Systems" and m4.name = "Server Side Rad" and m5.name = "Professional Practice In IT" create (m0)-[:Taught_to]->(ee), (m1)-[:Taught_to]->(ee), (m2)-[:Taught_to]->(ee), (m3)-[:Taught_to]->(ee), (m4)-[:Taught_to]->(ee), (m5)-[:Taught_to]->(ee)
-match (ee:Group),(m0:Module),(m1:Module),(m2:Module),(m3:Module),(m4:Module),(m5:Module) where ee.name = "B" and m0.name = "Graph Theory" and m1.name = "Software Testing" and m2.name = "Mobile Applications Development 2" and m3.name = "Database Management Systems" and m4.name = "Server Side Rad" and m5.name = "Professional Practice In IT" create (m0)-[:Taught_to]->(ee), (m1)-[:Taught_to]->(ee), (m2)-[:Taught_to]->(ee), (m3)-[:Taught_to]->(ee), (m4)-[:Taught_to]->(ee), (m5)-[:Taught_to]->(ee)
-match (ee:Group),(m0:Module),(m1:Module),(m2:Module),(m3:Module),(m4:Module),(m5:Module) where ee.name = "C" and m0.name = "Graph Theory" and m1.name = "Software Testing" and m2.name = "Mobile Applications Development 2" and m3.name = "Database Management Systems" and m4.name = "Server Side Rad" and m5.name = "Professional Practice In IT" create (m0)-[:Taught_to]->(ee), (m1)-[:Taught_to]->(ee), (m2)-[:Taught_to]->(ee), (m3)-[:Taught_to]->(ee), (m4)-[:Taught_to]->(ee), (m5)-[:Taught_to]->(ee)
+
+> match (ee:Group),(m0:Module),(m1:Module),(m2:Module),(m3:Module),(m4:Module),(m5:Module) where ee.name = "B" and m0.name = "Graph Theory" and m1.name = "Software Testing" and m2.name = "Mobile Applications Development 2" and m3.name = "Database Management Systems" and m4.name = "Server Side Rad" and m5.name = "Professional Practice In IT" create (m0)-[:Taught_to]->(ee), (m1)-[:Taught_to]->(ee), (m2)-[:Taught_to]->(ee), (m3)-[:Taught_to]->(ee), (m4)-[:Taught_to]->(ee), (m5)-[:Taught_to]->(ee)
+
+> match (ee:Group),(m0:Module),(m1:Module),(m2:Module),(m3:Module),(m4:Module),(m5:Module) where ee.name = "C" and m0.name = "Graph Theory" and m1.name = "Software Testing" and m2.name = "Mobile Applications Development 2" and m3.name = "Database Management Systems" and m4.name = "Server Side Rad" and m5.name = "Professional Practice In IT" create (m0)-[:Taught_to]->(ee), (m1)-[:Taught_to]->(ee), (m2)-[:Taught_to]->(ee), (m3)-[:Taught_to]->(ee), (m4)-[:Taught_to]->(ee), (m5)-[:Taught_to]->(ee)
 
 Now the database should look like this:
 ![Commit4_1](https://github.com/RicardsGraudins/College-Timetable-Neo4j/blob/master/Images/Commit4_2.png)
