@@ -67,6 +67,7 @@ Neo4j uses [Cypher Query Language](https://en.wikipedia.org/wiki/Cypher_Query_La
 1. Install Neo4j https://neo4j.com/download/
 2. Download and unzip the project
 3. Launch Neo4j and select the database location of the project
+4. Username: neo4j Password: password
 
 #### References
 [Intro to Neo4j](https://www.youtube.com/watch?v=Yzbk6VaavoM)
@@ -85,6 +86,7 @@ Commits 2 & 3 were deleted from commit history.
 8. Added Rooms, Days, TimeSlots Data
 9. Added Info about commit 8
 10. Finishing Touches
+11. Useful Queries and Password
 
 #### Timetable Database Data
 The following is a list of data that is stored in this timetable database for GMIT:
@@ -158,6 +160,7 @@ Now the database should look like this:
 The goal of this commit was to add rooms, display the days and time slots the rooms are available, and lastly to create a relationship between the group occupying the room during a timeslot as well as the module being taught.
 
 Here are all the steps and queries for this commit:
+
 Several queries are inside a [seperate folder](https://github.com/RicardsGraudins/College-Timetable-Neo4j/tree/master/Cypher%20Queries) as they are too long for the README.
 
 1. Create a new facility node for rooms.
@@ -206,10 +209,13 @@ There are many different nodes in the database, the labels on these nodes and on
 #### Onwards From Prototype
 In order to transform this prototype to a fully functioning database that can be __further tested__ these steps should be completed:
 * Constraints should be set both uniqueness constraints and property existance constraints to prevent entering the wrong kind of data.
+
 e.g. a uniqueness constraint could be set on student's ID like so
 > create constraint on (a:Student) assert a.ID is unique
+
 e.g. a property constraint could be set on the number property of room (need Neo4j Enterprise Edition)
 > create constraint on (a:Room) assert exists (a.number)
+
 To view constraints use the command :schema
 * May or may not want to create an index on a property which allows you to preform queries using index, the cost of using an index involves the creation of a redundant copy of the data in the database. Indexes are commonly created on nodes that contain a lot of data.
 e.g. create an index on student's ID
@@ -222,3 +228,21 @@ e.g. create a property capacity of 100 to the room node with the number 994
 * Relationships may also store properties.
 e.g. create a property "since" on the relationship "Taught_to" and set it December for the module Software Testing for group C
 > match (ee:Module {name: "Software Testing"})-[r:Taught_to]-(Group {name: "C"}) set r.since = "December"
+
+#### Useful Queries
+1. Delete student with ID G00000001
+> match (ee:Student) where ee.ID = "G00000001" detach delete ee
+2. Delete module Software Testing
+> match (ee:Module) where ee.name = "Software Testing" detach delete ee
+3. Delete available on relationship for room 994 on Monday
+> match (ee:Room)-[r:Available_on]-(a:Day) where ee.number = "0994" and a.name = "Monday" delete r
+4. Search for all unoccupied timeslots
+> match (a:TimeSlot) where not ((a)-[:Occupied_by]->(:Group)) return a
+5. Search for a particular room on particular day e.g. room 995 on Monday
+> match (a:Room)-[]->(b:Day) where a.number = "0995" and b.name = "Monday"  return a,b
+6. Move a student from group A to ground B
+> match (a:Group)-[r:Composed_of]->(ee:Student) where a.name = "A" and ee.name = "Ricards Graudins"  delete r
+
+> match (a:Group),(b:Student) where a.name = "B" and b.name = "Ricards Graudins" create (a)-[:Composed_of]->(b)
+7. Display what time slot and day the module graph theory is taught
+> match (a:Module)-[:Taught_at]-(b:TimeSlot)-[:Session]-(c:Day) where a.name = "Graph Theory" return a,b,c
